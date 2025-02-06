@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 5002
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require("./config/key");
 const { auth } = require("./middleware/auth");
 
 const { User } = require("./models/User");
+
 
 //application/x-www-frorm-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,8 +26,13 @@ mongoose.connect(config.mongoURI, {
     .catch(err => console.log(err))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!~~~~~~~~~')
+  res.send('Hello World!~~~~~~~~~~~~~~~~~~~~')
 })
+
+// app.get('/api/hello', (req, res) => res.send('안녕하세요'))
+app.get('/hello', (req, res) => {
+    res.send('안녕하세요');
+  });
 
 app.post('/api/users/register', (req, res) => {
     //회원가입할때 필요한 정보들을 client에서 가져오면
