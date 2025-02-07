@@ -51,7 +51,9 @@ app.post('/api/users/register', (req, res) => {
     .catch(err => res.json({ success: false, err }));
 })
 
-app.post('/login', (req,res) => {
+app.post('/api/users/login', (req,res) => {
+    console.log('로그인 요청 데이터:', req.body);
+    console.log("hyun20ee")
 
     // 요청된 이메일을 데이터베이스에서 있는지 찾는다.
     // User.findOne({ email: req.body.email }, (err, user) => {
@@ -62,14 +64,23 @@ app.post('/login', (req,res) => {
     //         message: "제공된 이메일에 해당하는 유저가 없습니다."
     //       })
     //     }
-    User.findOne({ email: req.body.email })
-        .then(user => {
-            if (!user) {
-                return res.json({
-                    loginSuccess: false,
-                    message: "제공된 이메일에 해당하는 유저가 없습니다."
-                });
-            }
+    // User.findOne({ email: req.body.email })
+    //     .then(user => {
+    //         if (!user) {
+    //             return res.json({
+    //                 loginSuccess: false,
+    //                 message: "제공된 이메일에 해당하는 유저가 없습니다."
+    //             });
+    //         }
+    User.findOne({ email: req.body.email }, (err, user) => {
+
+        console.log('user', user)
+        if (!user) {
+          return res.json({
+            loginSuccess: false,
+            message: "제공된 이메일에 해당하는 유저가 없습니다."
+          })
+        }
 
             // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 맞는지 확인
             user.comparePassword(req.body.password, (err, isMatch) => {
